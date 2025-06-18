@@ -1,3 +1,4 @@
+import { SCALEFACTOR } from "./constants";
 import { k } from "./kaboom_context";
 
 k.loadSprite("spritesheet","./spritesheet.png",{
@@ -18,7 +19,28 @@ k.loadSprite("map","./map.png");
 k.setBackground(k.Color.fromHex("#5ba675"))
 
 k.scene("main",async () => {
-    
+        //fetch map data
+        const mapData = await (await fetch("./map.json")).json()
+        const layers = mapData.layers;
+        // creating game objects
+        // k.make is for making the game obje cts 
+        const map = k.make([k.sprite("map"),k.pos(0),k.scale(SCALEFACTOR)])  
+        const player = k.make([k.sprite("spritesheet",{anim:"idle-down"}),
+                k.area({
+                    shape: new k.Rect(k.vec2(0,3),10,10)
+                }), // object hitbox 
+                k.body(), // makes our game object a tangible physics object that can me collided with
+                k.anchor("center"), // indicates where the object will be drawn from, default is top left
+                k.pos(), // position of the object
+                k.scale(SCALEFACTOR),
+                { // custom properties that will be accessible by the game object
+                        speed:250,
+                        direction: "down",
+                        isInDialogue:false,
+                },
+                "player" // object tag ~ its like an ID for the game object
+        ])
+        
 })
 
 k.go("main")
