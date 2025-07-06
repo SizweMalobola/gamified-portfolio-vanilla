@@ -1,1 +1,1 @@
-export const SCALEFACTOR = 4
+export const SCALEFACTOR = 6

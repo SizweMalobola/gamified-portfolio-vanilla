@@ -40,7 +40,7 @@ k.scene("main", async () => {
 
   // creating game objects
   // k.make is for making the game obje cts
-  const map = k.make([k.sprite("map"), k.pos(0), k.scale(SCALEFACTOR)]);
+  const map = k.add([k.sprite("map"), k.pos(0), k.scale(SCALEFACTOR)]);
 
   //fetch map data
   const mapData = await (await fetch("./map.json")).json();
@@ -68,9 +68,20 @@ k.scene("main", async () => {
       }
       continue
     }
-   
+    if (layer.name === "spawnpoints"){
+      for (const entity of layer.objects){
+        if(entity.name === "player"){
+          player.pos = k.vec2(((map.pos.x + entity.x) * SCALEFACTOR),((map.pos.y + entity.y) * SCALEFACTOR))
+          k.add(player);
+          continue
+        }
+      }
+    }
   }
 
+  k.onUpdate(() => {
+    k.camPos(player.pos.x ,player.pos.y + 100);
+  })
   // looping through layers and adding them as objects
 });
 
