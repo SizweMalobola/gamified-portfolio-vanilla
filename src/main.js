@@ -1,5 +1,6 @@
 import { SCALEFACTOR } from "./constants";
 import { k } from "./kaboom_context";
+import { displayDialogue } from "./utils";
 
 k.loadSprite("spritesheet", "./spritesheet.png", {
   sliceX: 39,
@@ -61,10 +62,13 @@ k.scene("main", async () => {
           player.onCollide(boundary.name, () => {
             player.isInDialogue = true;
             // Todo: add dialogue
+            displayDialogue("TODO",() => {player.isInDialogue = false})
           });
         }
       }
+      continue
     }
+   
   }
 
   // looping through layers and adding them as objects
